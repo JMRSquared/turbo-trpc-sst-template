@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { trpc } from './utils/trpc';
+import { trpc } from './trpc/TRPCProvider';
 
 const App = () => {
   const [message, setMessage] = useState('');
