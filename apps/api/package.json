@@ -1,0 +1,44 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./router": "./src/router/index.ts"
+  },
+  "sideEffects": false,
+  "files": [
+    "src/index.ts"
+  ],
+  "scripts": {
+    "generate-lambda-handlers": "tsx scripts/generate-lambda-handlers.ts && biome format --write ./src/generated",
+    "postinstall": "yarn generate-lambda-handlers",
+    "prepare": "husky",
+    "build": "rm -rf build && tsc -p tsconfig.json",
+    "dev": "tsx watch src/express-server.ts",
+    "start": "tsx src/express-server.ts",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "lint-staged-husky": "lint-staged",
+    "tsc": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@trpc/server": "11.4.3",
+    "aws-lambda": "^1.0.7",
+    "cors": "2.8.5",
+    "express": "5.1.0",
+    "superjson": "2.2.2",
+    "zod": "4.0.10"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
+    "@types/aws-lambda": "^8.10.152",
+    "@types/cors": "2.8.19",
+    "@types/express": "^5.0.3",
+    "semantic-release": "24.2.6",
+    "tsup": "8.5.0",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}

@@ -1,21 +1,22 @@
-import { handlers } from '../apps/trpc/src/generated/handlers';
+import { handlers } from '../apps/api/src/generated/handlers';
 
 export function Api() {
-  // Create API Gateway with tRPC routes
-  const api = new sst.aws.ApiGatewayV2('TrpcApi', {
+  const api = new sst.aws.ApiGatewayV2('Api', {
     cors: {
-      allowCredentials: true,
       allowHeaders: ['content-type', 'authorization'],
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowOrigins: ['http://localhost:5173', 'https://*.vercel.app'],
+      allowOrigins: ['*'],
     },
   });
 
   for (const { key, value } of handlers) {
-    api.route(`ANY /trpc/${key}`, value);
+    api.route(`ANY /trpc/${key}/{proxy+}`, {
+      handler: value,
+      name: `${$app.name}-${$app.stage}-${key}`,
+    });
   }
 
   return {
-    api: api.url,
+    api,
   };
 }

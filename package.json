@@ -14,23 +14,23 @@
     "format": "biome format --write .",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
-    "generate-lambda-handlers": "tsx scripts/generate-lambda-handlers.ts",
-    "postinstall": "yarn generate-lambda-handlers",
-    "deploy": "yarn generate-lambda-handlers && sst deploy"
+    "deploy": "yarn generate-lambda-handlers && sst deploy",
+    "prepare": "husky",
+    "lint-staged-husky": "lint-staged"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "husky": "9.1.7",
+    "lint-staged": "16.1.2",
     "tsx": "^4.20.3",
     "turbo": "^2.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "5.8.3"
   },
   "packageManager": "yarn@4.9.1",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
-    "@trpc/server": "^11.4.3",
-    "sst": "^3.17.10",
-    "zod": "^4.0.10"
+    "sst": "^3.17.10"
   }
 }

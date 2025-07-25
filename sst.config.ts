@@ -3,19 +3,22 @@
 export default $config({
   app(input) {
     return {
-      name: 'PROJECT_NAME',
+      name: 'wonderhire',
       removal: input?.stage === 'production' ? 'retain' : 'remove',
       protect: ['production'].includes(input?.stage),
       home: 'aws',
       providers: {
-        aws: {},
+        aws: {
+          region: 'us-east-1',
+          allowedAccountIds: ['593755927349'],
+        },
       },
     };
   },
   async run() {
     const { Web, Api } = await import('./infra');
 
-    //Web();
-    Api();
+    const { api } = Api();
+    // Web({ api });
   },
 });

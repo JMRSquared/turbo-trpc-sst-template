@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": false,
+    "declarationMap": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  },
+  "include": [".", ".commitlintrc.ts"],
+  "exclude": ["build", "node_modules"]
+}

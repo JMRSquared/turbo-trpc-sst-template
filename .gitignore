@@ -57,8 +57,5 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
-# Optional eslint cache
-.eslintcache
-
 # Turbo
 .turbo 
