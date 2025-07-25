@@ -1676,7 +1676,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:11.4.3":
+"@trpc/server@npm:11.0.0":
+  version: 11.0.0
+  resolution: "@trpc/server@npm:11.0.0"
+  peerDependencies:
+    typescript: ">=5.7.2"
+  checksum: 10c0/0fa6b9fd44d0378471df827fa1f35623d2ef463fe1af7c89de9433b22c81d0db5d60695a77a5ca723e91d2b77be08a48dee77703851109151c8e9febab478125
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:^11.4.3":
   version: 11.4.3
   resolution: "@trpc/server@npm:11.4.3"
   peerDependencies:
@@ -1943,20 +1952,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"PROJECT_NAME@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "PROJECT_NAME@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:^1.8.3"
-    husky: "npm:9.1.7"
-    lint-staged: "npm:16.1.2"
-    sst: "npm:^3.17.10"
-    tsx: "npm:^4.20.3"
-    turbo: "npm:^2.0.0"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "abbrev@npm:^3.0.0, abbrev@npm:^3.0.1":
   version: 3.0.1
   resolution: "abbrev@npm:3.0.1"
@@ -2074,7 +2069,7 @@ __metadata:
     "@biomejs/biome": "npm:^1.8.3"
     "@commitlint/cli": "npm:19.8.1"
     "@commitlint/config-conventional": "npm:19.8.1"
-    "@trpc/server": "npm:11.4.3"
+    "@trpc/server": "npm:^11.4.3"
     "@types/aws-lambda": "npm:^8.10.152"
     "@types/cors": "npm:2.8.19"
     "@types/express": "npm:^5.0.3"
@@ -2965,9 +2960,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.173":
-  version: 1.5.190
-  resolution: "electron-to-chromium@npm:1.5.190"
-  checksum: 10c0/d6ebf5c3fd72ed1e57f536558c201573693b39bc23fd7c6a4b30d9e17a0aa5d1ea1e93cf4f7d7dfbc2042cf104e3ea72b2f882192886e56ebea7c472eb124021
+  version: 1.5.191
+  resolution: "electron-to-chromium@npm:1.5.191"
+  checksum: 10c0/26b22ec2ae2a152da09f062d8582e54384a15ddc2a27149cdc2747a0c3f46154370a37b9e687de2d6d71ea1ebc1319f8394283ffb1581f1d4495cdefffd7a2a6
   languageName: node
   linkType: hard
 
@@ -7958,6 +7953,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"wonderhire@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "wonderhire@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:^1.8.3"
+    "@trpc/server": "npm:11.0.0"
+    husky: "npm:9.1.7"
+    lint-staged: "npm:16.1.2"
+    sst: "npm:^3.17.10"
+    tsx: "npm:^4.20.3"
+    turbo: "npm:^2.0.0"
+    typescript: "npm:5.8.3"
+    zod: "npm:^4.0.10"
+  languageName: unknown
+  linkType: soft
+
 "wordwrap@npm:^1.0.0":
   version: 1.0.0
   resolution: "wordwrap@npm:1.0.0"
@@ -8159,7 +8170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.0.10":
+"zod@npm:4.0.10, zod@npm:^4.0.10":
   version: 4.0.10
   resolution: "zod@npm:4.0.10"
   checksum: 10c0/8d1145e767c22b571a7967c198632f69ef15ce571b5021cdba84cf31d9af2ca40b033ea2fcbe5797cfd2da9c67b3a6ebe435938eabfbb1d1f3ab2f17f00f443b

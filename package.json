@@ -1,5 +1,5 @@
 {
-  "name": "PROJECT_NAME",
+  "name": "wonderhire",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -31,6 +31,8 @@
     "node": ">=20"
   },
   "dependencies": {
-    "sst": "^3.17.10"
+    "@trpc/server": "11.0.0",
+    "sst": "^3.17.10",
+    "zod": "^4.0.10"
   }
 }

@@ -3,7 +3,6 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
-    "lib": ["ES2020"],
     "baseUrl": ".",
     "declaration": false,
     "declarationMap": false,
@@ -13,10 +12,16 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "incremental": false,
+    "strictPropertyInitialization": false,
+    "isolatedModules": true,
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "types": ["vitest/globals"],
+    "moduleDetection": "force",
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "~/*": ["src/*"]
     }
   },
-  "include": [".", ".commitlintrc.ts"],
   "exclude": ["build", "node_modules"]
 }

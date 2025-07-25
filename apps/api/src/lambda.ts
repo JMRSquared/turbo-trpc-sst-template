@@ -16,7 +16,7 @@ export function createContext({
   };
 }
 
-export const _ = awsLambdaRequestHandler({
+export const test = awsLambdaRequestHandler({
   router: router(appRouter.ping),
   createContext,
 });

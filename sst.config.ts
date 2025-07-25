@@ -19,6 +19,6 @@ export default $config({
     const { Web, Api } = await import('./infra');
 
     const { api } = Api();
-    // Web({ api });
+    //Web({ api });
   },
 });

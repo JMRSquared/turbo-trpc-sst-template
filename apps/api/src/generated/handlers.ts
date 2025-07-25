@@ -1,22 +1,32 @@
 export const handlers = [
   {
-    key: 'ping/anotherRouter/doPingInside',
-    value: 'apps/api/src/generated/handler.ping_anotherRouter_doPingInside',
+    name: 'ping-another-router-do-ping-inside',
+    handler: 'apps/api/src/generated/handler.ping_anotherRouter_doPingInside',
+    path: 'ping/another-router/do-ping-inside',
+    procedure: 'ping.anotherRouter.doPingInside',
   },
   {
-    key: 'ping/doPing',
-    value: 'apps/api/src/generated/handler.ping_doPing',
+    name: 'ping-do-ping',
+    handler: 'apps/api/src/generated/handler.ping_doPing',
+    path: 'ping/do-ping',
+    procedure: 'ping.doPing',
   },
   {
-    key: 'ping/doTowPing',
-    value: 'apps/api/src/generated/handler.ping_doTowPing',
+    name: 'ping-do-tow-ping',
+    handler: 'apps/api/src/generated/handler.ping_doTowPing',
+    path: 'ping/do-tow-ping',
+    procedure: 'ping.doTowPing',
   },
   {
-    key: 'pong/doPong',
-    value: 'apps/api/src/generated/handler.pong_doPong',
+    name: 'pong-do-pong',
+    handler: 'apps/api/src/generated/handler.pong_doPong',
+    path: 'pong/do-pong',
+    procedure: 'pong.doPong',
   },
   {
-    key: 'pong/doTwoPong',
-    value: 'apps/api/src/generated/handler.pong_doTwoPong',
+    name: 'pong-do-two-pong',
+    handler: 'apps/api/src/generated/handler.pong_doTwoPong',
+    path: 'pong/do-two-pong',
+    procedure: 'pong.doTwoPong',
   },
 ] as const;

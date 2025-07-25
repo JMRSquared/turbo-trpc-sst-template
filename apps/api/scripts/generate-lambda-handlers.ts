@@ -51,8 +51,10 @@ writeFileSync(
   `${handlersDir}/handlers.ts`,
   `export const handlers = ${JSON.stringify(
     keys.map(key => ({
-      key: key.replace(/\./g, '/'),
-      value: path.join('apps/api', handlersDir, `handler.${key.replace(/\./g, '_')}`),
+      name: toKebabCase(key.replace(/\./g, '-')),
+      handler: path.join('apps/api', handlersDir, `handler.${key.replace(/\./g, '_')}`),
+      path: toKebabCase(key.replace(/\./g, '/')),
+      procedure: key,
     })),
     null,
     2
@@ -60,3 +62,10 @@ writeFileSync(
     `
 );
 console.log('Generated handlers:', keys.join(', '));
+
+function toKebabCase(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2') // handle camelCase or PascalCase
+    .replace(/[\s_]+/g, '-') // replace spaces and underscores with hyphens
+    .toLowerCase(); // convert everything to lowercase
+}

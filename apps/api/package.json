@@ -13,7 +13,6 @@
     "generate-lambda-handlers": "tsx scripts/generate-lambda-handlers.ts && biome format --write ./src/generated",
     "postinstall": "yarn generate-lambda-handlers",
     "prepare": "husky",
-    "build": "rm -rf build && tsc -p tsconfig.json",
     "dev": "tsx watch src/express-server.ts",
     "start": "tsx src/express-server.ts",
     "lint": "biome check .",
@@ -22,7 +21,7 @@
     "tsc": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@trpc/server": "11.4.3",
+    "@trpc/server": "^11.4.3",
     "aws-lambda": "^1.0.7",
     "cors": "2.8.5",
     "express": "5.1.0",

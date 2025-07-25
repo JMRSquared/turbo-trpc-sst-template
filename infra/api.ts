@@ -1,22 +1,29 @@
 import { handlers } from '../apps/api/src/generated/handlers';
 
 export function Api() {
+  const apiName = `${$app.name}-${$app.stage}`;
+
   const api = new sst.aws.ApiGatewayV2('Api', {
     cors: {
       allowHeaders: ['content-type', 'authorization'],
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       allowOrigins: ['*'],
     },
+    transform: {
+      api: {
+        name: apiName,
+      },
+    },
   });
 
-  for (const { key, value } of handlers) {
-    api.route(`ANY /trpc/${key}/{proxy+}`, {
-      handler: value,
-      name: `${$app.name}-${$app.stage}-${key}`,
+  for (const { handler, name, path } of handlers) {
+    api.route(`ANY /${path}/{proxy+}`, {
+      handler,
+      name: `${apiName}-${name}`,
     });
   }
 
   return {
-    api,
+    api
   };
 }
