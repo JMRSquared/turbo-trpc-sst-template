@@ -9,10 +9,13 @@ export function Web({ api }: Props) {
     },
     environment: {
       VITE_API_URL: api.url,
-      VITE_API_SERVERS: JSON.stringify(handlers.reduce((acc, handler) => {
-        acc[handler.path] = `${api.url}/${handler.path}`;
-        return acc;
-      }, {})),
+      VITE_API_SERVERS: JSON.stringify(
+        handlers.reduce((acc, handler) => {
+          acc[handler.procedure] = handler.path;
+
+          return acc;
+        }, {})
+      ),
     },
   });
 

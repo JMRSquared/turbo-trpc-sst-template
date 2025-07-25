@@ -12,6 +12,6 @@ export const anotherRouter = router({
   doPingInside: publicProcedure.query(async () => {
     await sleep(1000);
 
-    return 'Ping';
+    return 'Ping inside';
   }),
 });

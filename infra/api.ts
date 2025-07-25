@@ -5,13 +5,18 @@ export function Api() {
 
   const api = new sst.aws.ApiGatewayV2('Api', {
     cors: {
-      allowHeaders: ['content-type', 'authorization'],
-      allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowHeaders: ['*'],
+      allowMethods: ['*'],
       allowOrigins: ['*'],
     },
     transform: {
       api: {
         name: apiName,
+        corsConfiguration: {
+          allowOrigins: ['*'],
+          allowMethods: ['*'],
+          allowHeaders: ['*'],
+        },
       },
     },
   });
@@ -24,6 +29,6 @@ export function Api() {
   }
 
   return {
-    api
+    api,
   };
 }

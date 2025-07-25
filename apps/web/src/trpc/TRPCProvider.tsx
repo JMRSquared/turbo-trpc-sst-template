@@ -15,23 +15,28 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
           runtime => {
             const links = JSON.parse(import.meta.env.VITE_API_SERVERS ?? '{}');
             if (Object.keys(links).length === 0) {
+              console.log('No links found, using default');
               return httpBatchLink({ url: 'http://localhost:3000/trpc' })(runtime);
             }
 
+            console.log('-----------------');
             const servers = Object.entries(links).reduce(
-              (acc, [key, url]) => {
-                acc[key] = httpBatchLink({ url: url as string })(runtime);
+              (acc, [key, path]) => {
+                const url = `${import.meta.env.VITE_API_URL}/${path}`;
+                console.log({ key, path, url });
+                acc[key] = httpBatchLink({ url })(runtime);
 
                 return acc;
               },
               {} as Record<string, OperationLink<AppRouter, any, any>>
             );
 
+            console.log('-----------------');
+
             console.log({ servers });
 
             return ctx => {
               const { op } = ctx;
-              console.log({ op });
               // split the path by `.` as the first part will signify the server target name
               const pathParts = op.path.split('.');
 
@@ -40,17 +45,20 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
 
               // combine the rest of the parts of the paths
               // -- this is what we're actually calling the target server with
-              const path = pathParts.join('.');
-              console.log(`calling ${serverName} on path ${path}`, {
-                input: op.input,
-              });
 
               const link = servers[op.path];
-
-              return link({
-                ...ctx,
-                ...op,
+              console.log(`calling ${serverName} on path ${op.path}`, {
+                input: op.input,
+                link,
+                op,
+                servers,
               });
+
+              const result = link(ctx);
+
+              console.log({ result });
+
+              return result;
             };
           },
         ],
