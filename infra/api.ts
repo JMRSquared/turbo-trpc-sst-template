@@ -4,19 +4,10 @@ export function Api() {
   const apiName = `${$app.name}-${$app.stage}`;
 
   const api = new sst.aws.ApiGatewayV2('Api', {
-    cors: {
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      allowOrigins: ['*'],
-    },
+    cors: false,
     transform: {
       api: {
         name: apiName,
-        corsConfiguration: {
-          allowOrigins: ['*'],
-          allowMethods: ['*'],
-          allowHeaders: ['*'],
-        },
       },
     },
   });

@@ -1,3 +1,5 @@
+import middy from '@middy/core';
+import cors from '@middy/http-cors';
 import {
   type CreateAWSLambdaContextOptions,
   awsLambdaRequestHandler,
@@ -10,13 +12,46 @@ export function createContext({
   event,
   context,
 }: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>) {
+  console.log({ event, context });
   return {
     db: 'db',
     user: event.headers['x-user'],
   };
 }
 
-export const test = awsLambdaRequestHandler({
-  router: router(appRouter.ping),
-  createContext,
-});
+const corsConfig = {
+  responseMeta() {
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
+  },
+};
+
+export const test = middy(
+  awsLambdaRequestHandler({
+    router: router(appRouter.ping),
+    createContext,
+    ...corsConfig,
+  })
+)
+  .use(cors())
+  .use({
+    before: async request => {
+      console.log('Request:', {
+        path: request.event.path,
+        method: request.event.httpMethod,
+        headers: request.event.headers,
+      });
+    },
+    after: async request => {
+      console.log('Response:', {
+        statusCode: request.response?.statusCode,
+        headers: request.response?.headers,
+      });
+    },
+    onError: async request => {
+      console.error('Error:', request.error);
+    },
+  });

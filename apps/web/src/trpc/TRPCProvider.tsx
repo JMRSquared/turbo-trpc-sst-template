@@ -46,15 +46,22 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
               // combine the rest of the parts of the paths
               // -- this is what we're actually calling the target server with
 
+              const path = op.path.split('.').pop() as string;
               const link = servers[op.path];
-              console.log(`calling ${serverName} on path ${op.path}`, {
+              console.log(`calling ${serverName} on path ${path}`, {
                 input: op.input,
                 link,
                 op,
                 servers,
               });
 
-              const result = link(ctx);
+              const result = link({
+                ...ctx,
+                op: {
+                  ...op,
+                  path,
+                },
+              });
 
               console.log({ result });
 

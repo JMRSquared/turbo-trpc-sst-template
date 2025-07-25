@@ -33,9 +33,28 @@ for (const key of keys) {
   const handlerName = key.replace(/\./g, '_');
   const action = key.split('.').pop();
   lines.push(
-    `export const ${handlerName} = awsLambdaRequestHandler({`,
+    `export const ${handlerName} = middy(awsLambdaRequestHandler({`,
     `  router: router({${action}: appRouter.${key}}),`,
     '  createContext,',
+    '  ...corsConfig,',
+    '})).use(cors())',
+    '.use({',
+    '  before: async request => {',
+    '    console.log("Request:", {',
+    '      path: request.event.path,',
+    '      method: request.event.httpMethod,',
+    '      headers: request.event.headers,',
+    '    });',
+    '  },',
+    '  after: async request => {',
+    '    console.log("Response:", {',
+    '      statusCode: request.response?.statusCode,',
+    '      headers: request.response?.headers,',
+    '    });',
+    '  },',
+    '  onError: async request => {',
+    '    console.error("Error:", request.error);',
+    '  },',
     '});',
     ''
   );
