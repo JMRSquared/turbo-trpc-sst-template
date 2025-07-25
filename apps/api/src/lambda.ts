@@ -1,5 +1,3 @@
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
 import {
   type CreateAWSLambdaContextOptions,
   awsLambdaRequestHandler,
@@ -29,29 +27,28 @@ const corsConfig = {
   },
 };
 
-export const test = middy(
+export function withCors(trpcHandler: ReturnType<typeof awsLambdaRequestHandler>) {
+  return async (event: any, context: any) => {
+    if (event.requestContext?.http?.method === 'OPTIONS') {
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST',
+        },
+        body: '',
+      };
+    }
+
+    return trpcHandler(event, context);
+  };
+}
+
+export const test = withCors(
   awsLambdaRequestHandler({
     router: router(appRouter.ping),
     createContext,
     ...corsConfig,
   })
-)
-  .use(cors())
-  .use({
-    before: async request => {
-      console.log('Request:', {
-        path: request.event.path,
-        method: request.event.httpMethod,
-        headers: request.event.headers,
-      });
-    },
-    after: async request => {
-      console.log('Response:', {
-        statusCode: request.response?.statusCode,
-        headers: request.response?.headers,
-      });
-    },
-    onError: async request => {
-      console.error('Error:', request.error);
-    },
-  });
+);
