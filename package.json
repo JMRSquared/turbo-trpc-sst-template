@@ -1,0 +1,36 @@
+{
+  "name": "PROJECT_NAME",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "dev:api": "cd apps/api && yarn dev",
+    "dev:web": "cd apps/web && yarn dev",
+    "lint": "turbo lint",
+    "format": "biome format --write .",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean",
+    "generate-lambda-handlers": "tsx scripts/generate-lambda-handlers.ts",
+    "postinstall": "yarn generate-lambda-handlers",
+    "deploy": "yarn generate-lambda-handlers && sst deploy"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "tsx": "^4.20.3",
+    "turbo": "^2.0.0",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "yarn@4.9.1",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@trpc/server": "^11.4.3",
+    "sst": "^3.17.10",
+    "zod": "^4.0.10"
+  }
+}
