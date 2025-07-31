@@ -24,7 +24,7 @@ export const listApplications = publicProcedure.query(async () => {
         // You can add filtering, sorting, or field selection here
         // maxRecords: 100,
         // view: "Grid view"
-        maxRecords: 40,
+        maxRecords: 12,
       })
       .all();
 

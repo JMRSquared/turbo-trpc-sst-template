@@ -1,4 +1,3 @@
-import type React from 'react';
 import { trpc } from './trpc/TRPCProvider';
 
 const getStatusColor = (status?: string): string => {
@@ -59,11 +58,11 @@ export function ApplicationCard({ application }: { application: any }) {
   const hasCallCompleted = callDetails?.callCompleted;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-1 cursor-pointer">
-      <div className="flex justify-between items-start mb-4">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 mb-4 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-1 cursor-pointer">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-3">
         <div className="flex-1">
           <div className="flex items-center mb-2">
-            <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg mr-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm sm:text-lg mr-3 flex-shrink-0">
               {personalInfo?.initials ||
                 displayName
                   .split(' ')
@@ -72,17 +71,21 @@ export function ApplicationCard({ application }: { application: any }) {
                   .slice(0, 2)
                   .toUpperCase()}
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">{displayName}</h3>
-              <p className="text-sm text-gray-600">{personalInfo?.email || 'No email provided'}</p>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 truncate">
+                {displayName}
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 truncate">
+                {personalInfo?.email || 'No email provided'}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-row sm:flex-col items-start sm:items-end gap-2 flex-wrap">
           {applicationDetails?.applicationStatus && (
             <span
-              className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(applicationDetails.applicationStatus)}`}
+              className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(applicationDetails.applicationStatus)}`}
             >
               {applicationDetails.applicationStatus}
             </span>
@@ -90,7 +93,7 @@ export function ApplicationCard({ application }: { application: any }) {
 
           {applicationDetails?.pipelineStage && (
             <span
-              className={`px-3 py-1 rounded-full text-xs font-medium ${getPipelineStageColor(applicationDetails.pipelineStage)}`}
+              className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getPipelineStageColor(applicationDetails.pipelineStage)}`}
             >
               {applicationDetails.pipelineStage}
             </span>
@@ -99,34 +102,42 @@ export function ApplicationCard({ application }: { application: any }) {
       </div>
 
       <div className="mb-4">
-        <h4 className="text-base font-medium text-gray-700 mb-2">{primaryJobTitle}</h4>
+        <h4 className="text-sm sm:text-base font-medium text-gray-700 mb-2 line-clamp-2">
+          {primaryJobTitle}
+        </h4>
 
         {applicationDetails?.clientName && (
-          <p className="text-sm text-gray-600 mb-2">Client: {applicationDetails.clientName}</p>
+          <p className="text-xs sm:text-sm text-gray-600 mb-2 truncate">
+            Client: {applicationDetails.clientName}
+          </p>
         )}
 
         {personalInfo?.mobileNumber && (
-          <p className="text-sm text-gray-600">
+          <p className="text-xs sm:text-sm text-gray-600 truncate">
             Phone: {personalInfo.formattedMobileNumber || personalInfo.mobileNumber}
           </p>
         )}
       </div>
 
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex gap-4 text-sm text-gray-600">
-          <span>Applied: {formatDate(applicationDetails?.applicationDate)}</span>
-          {timestamps?.dateModified && <span>Updated: {formatDate(timestamps.dateModified)}</span>}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+          <span className="truncate">
+            Applied: {formatDate(applicationDetails?.applicationDate)}
+          </span>
+          {timestamps?.dateModified && (
+            <span className="truncate">Updated: {formatDate(timestamps.dateModified)}</span>
+          )}
         </div>
       </div>
 
-      <div className="flex gap-3 items-center">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-start sm:items-center">
         <div
           className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium ${
             hasResume ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
           }`}
         >
-          <span className="text-base">{hasResume ? '📄' : '❌'}</span>
-          Resume {hasResume ? 'Uploaded' : 'Missing'}
+          <span className="text-sm">{hasResume ? '📄' : '❌'}</span>
+          <span className="whitespace-nowrap">Resume {hasResume ? 'Uploaded' : 'Missing'}</span>
         </div>
 
         <div
@@ -134,12 +145,14 @@ export function ApplicationCard({ application }: { application: any }) {
             hasCallCompleted ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
           }`}
         >
-          <span className="text-base">{hasCallCompleted ? '📞' : '⏳'}</span>
-          Call {hasCallCompleted ? 'Completed' : 'Pending'}
+          <span className="text-sm">{hasCallCompleted ? '📞' : '⏳'}</span>
+          <span className="whitespace-nowrap">
+            Call {hasCallCompleted ? 'Completed' : 'Pending'}
+          </span>
         </div>
 
         {callDetails?.duration?.length > 0 && (
-          <div className="px-2 py-1 rounded-md bg-indigo-100 text-indigo-700 text-xs font-medium">
+          <div className="px-2 py-1 rounded-md bg-indigo-100 text-indigo-700 text-xs font-medium whitespace-nowrap">
             Duration: {Math.round(callDetails.duration[0] / 60)}min
           </div>
         )}
@@ -150,16 +163,16 @@ export function ApplicationCard({ application }: { application: any }) {
 
 function LoadingCard() {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4 animate-pulse">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 mb-4 animate-pulse">
       <div className="flex items-center mb-4">
-        <div className="w-12 h-12 rounded-full bg-gray-200 mr-3" />
-        <div className="flex-1">
-          <div className="h-5 bg-gray-200 rounded mb-2 w-3/5" />
-          <div className="h-4 bg-gray-200 rounded w-2/5" />
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 mr-3 flex-shrink-0" />
+        <div className="flex-1 min-w-0">
+          <div className="h-4 sm:h-5 bg-gray-200 rounded mb-2 w-3/5" />
+          <div className="h-3 sm:h-4 bg-gray-200 rounded w-2/5" />
         </div>
       </div>
-      <div className="h-4 bg-gray-200 rounded mb-3 w-4/5" />
-      <div className="h-4 bg-gray-200 rounded w-3/5" />
+      <div className="h-3 sm:h-4 bg-gray-200 rounded mb-3 w-4/5" />
+      <div className="h-3 sm:h-4 bg-gray-200 rounded w-3/5" />
     </div>
   );
 }
@@ -176,18 +189,20 @@ export function Resumes() {
   const serverError = hasError ? (applicationsQuery.data as any)?.error : null;
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-center mb-8">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 bg-gray-50 min-h-screen">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Job Applications</h1>
-          <p className="text-gray-600">Manage and review candidate applications</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Job Applications</h1>
+          <p className="text-sm sm:text-base text-gray-600">
+            Manage and review candidate applications
+          </p>
         </div>
 
         <button
           type="button"
           onClick={handleRefresh}
           disabled={applicationsQuery.isLoading}
-          className={`px-6 py-3 rounded-lg font-medium text-sm transition-colors ${
+          className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm transition-colors w-full sm:w-auto ${
             applicationsQuery.isLoading
               ? 'bg-gray-400 text-white cursor-not-allowed'
               : 'bg-blue-600 text-white hover:bg-blue-700'
@@ -199,15 +214,19 @@ export function Resumes() {
 
       {applicationsQuery.error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <h3 className="text-red-800 font-semibold mb-2">Error Loading Applications</h3>
-          <p className="text-red-700 text-sm">{applicationsQuery.error.message}</p>
+          <h3 className="text-red-800 font-semibold mb-2 text-sm sm:text-base">
+            Error Loading Applications
+          </h3>
+          <p className="text-red-700 text-xs sm:text-sm break-words">
+            {applicationsQuery.error.message}
+          </p>
         </div>
       )}
 
       {hasError && serverError && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <h3 className="text-red-800 font-semibold mb-2">Server Error</h3>
-          <p className="text-red-700 text-sm">{serverError}</p>
+          <h3 className="text-red-800 font-semibold mb-2 text-sm sm:text-base">Server Error</h3>
+          <p className="text-red-700 text-xs sm:text-sm break-words">{serverError}</p>
         </div>
       )}
 
@@ -221,17 +240,21 @@ export function Resumes() {
 
       {applications && (
         <div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-            <p className="text-sm text-gray-600">
+          <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 mb-4">
+            <p className="text-xs sm:text-sm text-gray-600">
               Showing {applications.length} application{applications.length !== 1 ? 's' : ''}
             </p>
           </div>
 
           {applications.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-              <div className="text-5xl mb-4">📋</div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">No Applications Found</h3>
-              <p className="text-gray-600">There are currently no job applications to display.</p>
+            <div className="text-center py-8 sm:py-12 bg-white rounded-xl border border-gray-200">
+              <div className="text-4xl sm:text-5xl mb-4">📋</div>
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">
+                No Applications Found
+              </h3>
+              <p className="text-sm sm:text-base text-gray-600 px-4">
+                There are currently no job applications to display.
+              </p>
             </div>
           ) : (
             applications.map((application: any, index: number) => (

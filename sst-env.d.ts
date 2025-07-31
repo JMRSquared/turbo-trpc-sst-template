@@ -5,6 +5,14 @@
 
 declare module "sst" {
   export interface Resource {
+    "AIRTABLE_API_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "AIRTABLE_BASE_ID": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "Api": {
       "type": "sst.aws.ApiGatewayV2"
       "url": string

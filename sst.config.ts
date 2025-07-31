@@ -16,9 +16,13 @@ export default $config({
     };
   },
   async run() {
-    const { Web, Api } = await import('./infra');
+    const { Web, Api, Secrets } = await import('./infra');
 
-    const { api } = Api();
+    const secrets = Secrets();
+
+    const { api } = Api({
+      secrets: [secrets.airtable.airtableApiKey, secrets.airtable.airtableBaseId],
+    });
     Web({ api });
   },
 });
