@@ -29,4 +29,10 @@ export const handlers = [
     path: 'pong/do-two-pong',
     procedure: 'pong.doTwoPong',
   },
+  {
+    name: 'applications-list',
+    handler: 'apps/api/src/generated/handler.applications_list',
+    path: 'applications/list',
+    procedure: 'applications.list',
+  },
 ] as const;

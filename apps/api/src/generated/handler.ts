@@ -22,26 +22,41 @@ const corsConfig = {
     return {
       headers: {
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
     };
   },
 };
 
-export function withCors(trpcHandler: ReturnType<typeof awsLambdaRequestHandler>) {
+export function withCors(trpcHandler: any) {
   return async (event: any, context: any) => {
     if (event.requestContext?.http?.method === 'OPTIONS') {
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'OPTIONS,POST',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Max-Age': '86400',
         },
         body: '',
       };
     }
 
-    return trpcHandler(event, context);
+    const response = await trpcHandler(event, context);
+
+    // Ensure CORS headers are always present in the response
+    if (response && typeof response === 'object' && 'headers' in response) {
+      response.headers = {
+        ...response.headers,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      };
+    }
+
+    return response;
   };
 }
 
@@ -88,6 +103,14 @@ export const pong_doPong = withCors(
 export const pong_doTwoPong = withCors(
   awsLambdaRequestHandler({
     router: router({ doTwoPong: appRouter.pong.doTwoPong }),
+    createContext,
+    ...corsConfig,
+  })
+);
+
+export const applications_list = withCors(
+  awsLambdaRequestHandler({
+    router: router({ list: appRouter.applications.list }),
     createContext,
     ...corsConfig,
   })
